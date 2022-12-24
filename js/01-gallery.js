@@ -1,8 +1,8 @@
-import { galleryItems } from "./gallery-items.js";
+import { galleryItems } from './gallery-items.js';
 
 // Change code below this line
 
-const galleryDivRef = document.querySelector(".gallery");
+const galleryDivRef = document.querySelector('.gallery');
 let instance;
 
 // Функція для створення елемента галереї
@@ -22,19 +22,19 @@ const makeGalleryItem = ({ preview, original, description } = {}) =>
 
 // Створення масиву рядків із елементами
 
-const makeGallery = galleryItems.map(makeGalleryItem).join("");
+const makeGallery = galleryItems.map(makeGalleryItem).join('');
 
 // Вставка елементів на сторінку
 
-galleryDivRef.insertAdjacentHTML("beforeend", makeGallery);
+galleryDivRef.insertAdjacentHTML('beforeend', makeGallery);
 
 // Делегування та отримання url великого зображення
 
-const handleGalleryDivclick = (e) => {
+const handleGalleryDivclick = e => {
   e.preventDefault();
 
   const { target } = e;
-  if (target.nodeName !== "IMG") {
+  if (target.nodeName !== 'IMG') {
     return;
   }
 
@@ -42,15 +42,18 @@ const handleGalleryDivclick = (e) => {
   instance = basicLightbox.create(`<img src="${largeImageUrl}"/>`);
   instance.show();
 
-  document.addEventListener("keydown", handleEscBtnPress);
+  if (instance.visible()) {
+    document.addEventListener('keydown', handleEscBtnPress);
+  }
 };
 
 // Функція закриття модального вікна
 
-const handleEscBtnPress = (e) => {
-  if (e.key === "Escape") {
+const handleEscBtnPress = e => {
+  if (e.key === 'Escape') {
     instance.close();
+    document.removeEventListener('keydown', handleEscBtnPress);
   }
 };
 
-galleryDivRef.addEventListener("click", handleGalleryDivclick);
+galleryDivRef.addEventListener('click', handleGalleryDivclick);
